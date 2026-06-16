@@ -17,6 +17,7 @@ model Usuario {
   nascimento      DateTime @db.Date
   grupo           Grupo    @relation(fields: [grupoId], references: [id])
   grupoId         Int  
+  ativo           Boolean  @default(true)
   dataCriacao     DateTime @default(now())
   dataAtualizacao DateTime @updatedAt
 
