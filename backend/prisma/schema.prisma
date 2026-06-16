@@ -8,24 +8,34 @@ datasource db {
   provider = "postgresql"
 }
 
-model Usuarios{
+model Usuario {
   id              Int      @id @default(autoincrement())
   nome            String
   email           String   @unique
   senha_hash      String
   telefone        String   @unique
-  nascimento      Date
-  grupo_id        Int 
+  nascimento      DateTime @db.Date
+  grupo           Grupo    @relation(fields: [grupoId], references: [id])
+  grupoId         Int  
   dataCriacao     DateTime @default(now())
   dataAtualizacao DateTime @updatedAt
 
   @@map("usuarios")
 }
 
-model Grupos{
+model Grupo{
   id          Int    @id @default(autoincrement())
   nome        String
   descricao   String
-
+  usuarios    Usuario[]
+  permissoes  Permissao[]
   @@map("grupos")
+}
+
+model Permissao{
+  id          Int @id @default(autoincrement())
+  nome        String
+  descricao   String?
+  grupos      Grupo[]
+  @@map("permissoes")
 }
